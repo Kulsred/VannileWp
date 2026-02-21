@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VannileWP — Ванильный Майнкрафт</title>
+    <!-- Шрифт Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0e14;
+            color: #edf2f7;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 30% 10%, rgba(45, 100, 200, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(120, 80, 200, 0.12) 0%, transparent 40%);
+            padding: 1.5rem;
+        }
+
+        .glass-card {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(18, 25, 35, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 3rem;
+            padding: 2.5rem 2.2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        /* Шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: #8a9cf0;
+            background: linear-gradient(145deg, #2c3f6b, #1b2a44);
+            padding: 0.7rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 10px 20px -5px rgba(0, 20, 50, 0.6);
+        }
+
+        .logo-text h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff, #c0ccf0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text .tag {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #8f9bb5;
+            letter-spacing: 1px;
+        }
+
+        .server-version-badge {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(138, 156, 240, 0.3);
+            border-radius: 100px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #b3c2ff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .server-version-badge i {
+            margin-right: 0.5rem;
+            color: #6d8cff;
+        }
+
+        /* Основная сетка */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Левая колонка — Информация */
+        .info-panel {
+            background: rgba(8, 14, 23, 0.6);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .server-modes {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .mode-tag {
+            background: rgba(105, 126, 209, 0.15);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(160, 184, 255, 0.2);
+            color: #c6d3ff;
+        }
+
+        .mode-tag i {
+            margin-right: 0.5rem;
+            color: #7c9cff;
+        }
+
+        .description {
+            margin-bottom: 2rem;
+        }
+
+        .description h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .description p {
+            color: #acb8d0;
+            font-size: 1rem;
+            max-width: 90%;
+        }
+
+        .features-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.9rem 1.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: 0.2s;
+        }
+
+        .feature-item:hover {
+            background: rgba(45, 70, 120, 0.3);
+            border-color: rgba(138, 156, 240, 0.3);
+        }
+
+        .feature-item i {
+            font-size: 1.4rem;
+            color: #7f9eff;
+            width: 2rem;
+        }
+
+        /* Правая колонка — Статус сервера */
+        .status-panel {
+            background: rgba(8, 14, 23, 0.6);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #b7c5f0;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .status-online {
+            padding: 0.7rem 1.2rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-online.online {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6fe9c0;
+            border: 1px solid rgba(72, 255, 180, 0.2);
+        }
+
+        .status-online.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        .status-online i {
+            font-size: 0.9rem;
+        }
+
+        .ip-box {
+            background: #101a28;
+            border-radius: 2rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #1e2b3f;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .ip-text {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: white;
+            word-break: break-all;
+        }
+
+        .ip-text i {
+            color: #7c9cff;
+            font-size: 1.4rem;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2c3d5c;
+            color: #d3e0ff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: #2f4172;
+            border-color: #6d8cff;
+            color: white;
+        }
+
+        .player-count {
+            background: #0e1623;
+            border-radius: 1.8rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .player-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .player-row i {
+            color: #ffb347;
+            font-size: 2rem;
+        }
+
+        .player-row span {
+            font-size: 1.9rem;
+            margin-right: 0.3rem;
+        }
+
+        .player-note {
+            font-size: 0.9rem;
+            color: #9aa9c4;
+            margin-top: 0.5rem;
+        }
+
+        .supported-versions {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 2rem;
+            padding: 1.2rem 1.8rem;
+            border: 1px dashed #3f5182;
+        }
+
+        .versions-title {
+            font-weight: 500;
+            color: #b1c2ee;
+            margin-bottom: 0.5rem;
+        }
+
+        .versions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem 1rem;
+            font-weight: 600;
+        }
+
+        .versions-list span {
+            background: #152337;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            color: #b7ceff;
+            border: 1px solid #253b60;
+        }
+
+        /* Нижняя панель */
+        .bottom-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            margin-top: 0.5rem;
+        }
+
+        .game-modes {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .game-mode {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .game-mode i {
+            font-size: 1.8rem;
+            color: #f3b27a;
+        }
+
+        .game-mode .mode-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .game-mode .mode-desc {
+            font-size: 0.8rem;
+            color: #95a9cf;
+        }
+
+        .join-button {
+            background: linear-gradient(145deg, #5168b4, #354a85);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 3rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 10px 20px -5px #1e2f70;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .join-button:hover {
+            background: linear-gradient(145deg, #6279d0, #4259a3);
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px -5px #273b7c;
+        }
+
+        .join-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Виджет голосования */
+        .vote-section {
+            margin: 2rem 0 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .vote-title {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #d0dfff;
+            margin-bottom: 1rem;
+        }
+
+        .vote-widget-container {
+            display: flex;
+            justify-content: center;
+            background: rgba(10, 15, 25, 0.6);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #25304a;
+        }
+
+        /* Футер */
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #6f7f9f;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .socials i {
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+            color: #6c81b5;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .socials i:hover {
+            color: #b7cdff;
+        }
+
+        hr {
+            border: 0.5px solid rgba(255,255,255,0.03);
+            margin: 1.5rem 0 1rem;
+        }
+
+        /* Стили для виджета голосования */
+        .mr-vote-server {
+            display: flex !important;
+            align-items: center !important;
+            gap: 1rem !important;
+            background: transparent !important;
+            color: white !important;
+            text-decoration: none !important;
+        }
+        
+        #mr-vote-title img {
+            filter: brightness(0) invert(1) !important;
+            opacity: 0.9 !important;
+        }
+        
+        #mr-vote-counter {
+            color: #b7ceff !important;
+            font-weight: 600 !important;
+        }
+
+        /* Лоадер */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #6d8cff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <!-- Шапка -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-cube"></i></div>
+                <div class="logo-text">
+                    <h1>VannileWP</h1>
+                    <div class="tag">ванильный опыт · tgk · VannileWp</div>
+                </div>
+            </div>
+            <div class="server-version-badge">
+                <i class="fas fa-code-branch"></i> 1.7 → 1.21.11
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="main-grid">
+            <!-- Левая колонка -->
+            <div class="info-panel">
+                <div class="server-modes">
+                    <span class="mode-tag"><i class="fas fa-tree"></i> Ванильное выживание</span>
+                    <span class="mode-tag"><i class="fas fa-crosshairs"></i> Дуэли 1v1</span>
+                    <span class="mode-tag"><i class="fas fa-shield-alt"></i> Без приватов</span>
+                </div>
+                <div class="description">
+                    <h3>🌱 Атмосфера чистого ванилла</h3>
+                    <p>VannileWP — сервер, где правит механика 1.21.11, но мы открыты для игроков с версиями вплоть до 1.7. Только выживание, дуэли и никаких донатерских плагинов. Честная игра.</p>
+                </div>
+                <div class="features-mini">
+                    <div class="feature-item">
+                        <i class="fas fa-compass"></i>
+                        <div><strong>Мир без границ</strong> <span style="color:#9eb3dc; margin-left: 0.7rem;">приват только на спавн</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-trophy"></i>
+                        <div><strong>/duel арена</strong> <span style="color:#9eb3dc; margin-left: 0.7rem;">бои 1 на 1 в любое время</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <div><strong>Версии 1.7 — 1.21.11</strong> <span style="color:#9eb3dc; margin-left: 0.7rem;">заходи с любой</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка: онлайн, IP -->
+            <div class="status-panel">
+                <div class="panel-title"><i class="fas fa-signal"></i> Статус сервера</div>
+
+                <div class="status-online" id="serverStatus">
+                    <i class="fas fa-circle"></i> <span id="statusText">Проверка...</span>
+                </div>
+
+                <!-- IP: wp.playmc.tech:25010 -->
+                <div class="ip-box">
+                    <div class="ip-text">
+                        <i class="fas fa-network-wired"></i> wp.playmc.tech:25010
+                    </div>
+                    <button class="copy-btn" id="copyIpBtn"><i class="far fa-copy"></i> IP</button>
+                </div>
+
+                <!-- Счётчик игроков онлайн -->
+                <div class="player-count">
+                    <div class="player-row">
+                        <i class="fas fa-users"></i>
+                        <span id="onlineCount">0</span> / <span id="maxPlayers">0</span>
+                    </div>
+                    <div class="player-note">
+                        <i class="fas fa-check-circle" style="color: #4bb543;"></i> Java Edition · обновляется каждые 30 сек
+                    </div>
+                </div>
+
+                <!-- Поддерживаемые версии -->
+                <div class="supported-versions">
+                    <div class="versions-title"><i class="fas fa-cubes"></i> Поддержка версий:</div>
+                    <div class="versions-list">
+                        <span>1.7.10</span><span>1.8.9</span><span>1.12.2</span><span>1.16.5</span>
+                        <span>1.17.1</span><span>1.18.2</span><span>1.19.4</span><span>1.20.4</span>
+                        <span>1.21.11</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция голосования MinecraftRating -->
+        <div class="vote-section">
+            <div class="vote-title">
+                <i class="fas fa-star" style="color: #ffd966;"></i> 
+                Поддержи сервер — проголосуй на MinecraftRating
+            </div>
+            <div class="vote-widget-container">
+                <a href="https://minecraftrating.ru/server/390728/" class="mr-vote-server" data-server-id="390728">
+                    <span id="mr-vote-title">
+                        <img src="//minecraftrating.ru/templates/theme/images/logo.png" alt="MinecraftRating" />
+                    </span>
+                    <span id="mr-vote-counter"><u></u><i></i></span>
+                </a>
+                <script type="text/javascript" src="//minecraftrating.ru/widgets_api/vote/vote_widget.js?v=400"></script>
+            </div>
+        </div>
+
+        <!-- Нижний блок: режимы игры -->
+        <div class="bottom-panel">
+            <div class="game-modes">
+                <div class="game-mode">
+                    <i class="fas fa-campground"></i>
+                    <div>
+                        <div class="mode-name">Ванильное выживание</div>
+                        <div class="mode-desc">Сложность сложная · ресурсы 1x</div>
+                    </div>
+                </div>
+                <div class="game-mode">
+                    <i class="fas fa-fist-raised"></i>
+                    <div>
+                        <div class="mode-name">Дуэли (1.9+) PvP</div>
+                        <div class="mode-desc">Арена /duel </div>
+                    </div>
+                </div>
+            </div>
+            <button class="join-button" id="joinServerBtn">
+                <i class="fas fa-play"></i> Играть сейчас
+            </button>
+        </div>
+
+        <!-- Футер -->
+        <hr>
+        <div class="footer">
+            <div>© 2026 VannileWP · <a href="https://minecraftrating.ru/server/390728/" style="color: #8f9bb5; text-decoration: none;" target="_blank">Рейтинг 390728</a></div>
+            <div class="socials">
+                <i class="fab fa-telegram" id="tgkIcon"></i>
+                <i class="fab fa-discord"></i>
+                <i class="fas fa-envelope"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Конфигурация
+            const SERVER_IP = 'wp.playmc.tech:25010';
+            const SERVER_HOST = 'wp.playmc.tech';
+            const SERVER_PORT = 25010;
+            
+            // Функция получения статуса сервера через API
+            async function fetchServerStatus() {
+                try {
+                    // Используем публичное API для проверки статуса Minecraft сервера
+                    // Можно заменить на другой API или свой бэкенд
+                    const response = await fetch(`https://api.mcsrvstat.us/2/${SERVER_HOST}:${SERVER_PORT}`);
+                    const data = await response.json();
+                    
+                    updateServerUI(data);
+                } catch (error) {
+                    console.error('Ошибка при получении статуса сервера:', error);
+                    // Показываем, что сервер возможно офлайн или ошибка
+                    setOfflineStatus();
+                }
+            }
+
+            // Обновление UI с данными сервера
+            function updateServerUI(data) {
+                const statusElement = document.getElementById('serverStatus');
+                const statusText = document.getElementById('statusText');
+                const onlineCount = document.getElementById('onlineCount');
+                const maxPlayers = document.getElementById('maxPlayers');
+                const joinButton = document.getElementById('joinServerBtn');
+
+                if (data.online) {
+                    // Сервер онлайн
+                    statusElement.className = 'status-online online';
+                    statusElement.innerHTML = '<i class="fas fa-circle" style="color:#2ecc71;"></i> <span id="statusText">Онлайн</span>';
+                    
+                    // Обновляем количество игроков
+                    const players = data.players ? data.players.online : 0;
+                    const max = data.players ? data.players.max : 150;
+                    
+                    onlineCount.textContent = players;
+                    maxPlayers.textContent = max;
+                    
+                    // Активируем кнопку
+                    joinButton.disabled = false;
+                } else {
+                    setOfflineStatus();
+                }
+            }
+
+            // Установка офлайн статуса
+            function setOfflineStatus() {
+                const statusElement = document.getElementById('serverStatus');
+                const statusText = document.getElementById('statusText');
+                const onlineCount = document.getElementById('onlineCount');
+                const maxPlayers = document.getElementById('maxPlayers');
+                const joinButton = document.getElementById('joinServerBtn');
+
+                statusElement.className = 'status-online offline';
+                statusElement.innerHTML = '<i class="fas fa-circle"></i> <span id="statusText">Офлайн</span>';
+                
+                onlineCount.textContent = '0';
+                maxPlayers.textContent = '0';
+                
+                // Деактивируем кнопку
+                joinButton.disabled = true;
+            }
+
+            // Копирование IP
+            document.getElementById('copyIpBtn').addEventListener('click', function() {
+                navigator.clipboard.writeText(SERVER_IP).then(() => {
+                    const btn = document.getElementById('copyIpBtn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                }).catch(() => {
+                    alert('IP: ' + SERVER_IP);
+                });
+            });
+
+            // Кнопка "Играть сейчас"
+            document.getElementById('joinServerBtn').addEventListener('click', function() {
+                if (!this.disabled) {
+                    window.location.href = `minecraft://play/?server=${SERVER_HOST}&port=${SERVER_PORT}`;
+                    setTimeout(() => {
+                        alert('Если Майнкрафт не открылся, скопируйте IP: ' + SERVER_IP);
+                    }, 500);
+                }
+            });
+
+            // Telegram
+            document.getElementById('tgkIcon').addEventListener('click', function() {
+                window.open('https://t.me/vannilewp', '_blank');
+            });
+
+            // Первичная загрузка статуса
+            fetchServerStatus();
+            
+            // Обновление статуса каждые 30 секунд
+            setInterval(fetchServerStatus, 30000);
+        })();
+    </script>
+</body>
+</html>
